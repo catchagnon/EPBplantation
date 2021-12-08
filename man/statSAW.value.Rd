@@ -7,7 +7,7 @@
 statSAW.value(lumber, value, id = NULL)
 }
 \arguments{
-\item{lumber}{lumber product assortment. output of function statSAWplantation().}
+\item{lumber}{lumber product assortment. output of function statSAW.plantation().}
 
 \item{value}{dataframe comprising two columns; 1. category of lumber product (as in lumber) and 2. associated value}
 

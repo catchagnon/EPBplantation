@@ -21,12 +21,14 @@ statSAW.plantation(dbh, vol.dm3, stem.ha, h, return.volume = FALSE)
 a dataframe with number and volume in pmp of lumber products for a diameter frequency distribution
 
 The function uses the following six product categories
-1x3x08 <- c("1x3x06", "1x3x07", "1x3x08", "1x3x10", "1x3x12", "1x3x14")
-1x4x08 <- c("1x4x06", "1x4x07", "1x4x08", "1x4x10", "1x4x14", "1x4x16", "1x6x08")
-2x3x08 <- c("2x3x05", "2x3x06", "2x3x07", "2x3x08")
-2x4x08 <- c("2x4x05", "2x4x06", "2x4x07", "2x4x08")
-2x4x16 <- c("2x4x10", "2x4x12", "2x4x14", "2x4x16")
-2x6x10 <- c("2x6x07", "2x6x08", "2x6x10", "2x6x12", "2x6x14", "2x6x16")
+\enumerate{
+\item 1x3x08 including 1x3x06, 1x3x07, 1x3x08, 1x3x10, 1x3x12, 1x3x14
+\item 1x4x08 including 1x4x06, 1x4x07, 1x4x08, 1x4x10, 1x4x14, 1x4x16, 1x6x08
+\item 2x3x08 including 2x3x05, 2x3x06, 2x3x07, 2x3x08
+\item 2x4x08 including 2x4x05, 2x4x06, 2x4x07, 2x4x08
+\item 2x4x16 including 2x4x10, 2x4x12, 2x4x14, 2x4x16
+\item 2x6x10 including 2x6x07, 2x6x08, 2x6x10, 2x6x12, 2x6x14, 2x6x16
+}
 }
 \description{
 Implement StatSAW model as described in Auty et al. 2014 (StatSAW: modelling lumber product assortment using zero-inflated Poisson regression,
@@ -39,6 +41,9 @@ frequency distribution. If merchantable volume  (dm3) for each dbh valueis not g
 https://mffp.gouv.qc.ca/publications/forets/connaissances/recherche/Pregent-Guy/Memoire160.pdf" which is fitted for plantations located in Quebec, Canada.
 }
 \examples{
-statSAW.plantation(dbh = 10:20, stem.ha = seq(10,100, by = 10), h = seq(10,15, by = 0.5), return.volume = FALSE)
+statSAW.plantation(dbh = 10:20, 
+                   stem.ha = seq(10,100, by = 10), 
+                   h = seq(10,15, by = 0.5),
+                   return.volume = FALSE)
 
 }

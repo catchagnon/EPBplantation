@@ -68,12 +68,12 @@ weibull.params.pct <- function(id, age, iqs, stem.ha, h, mdbh)
 #' @return a dataframe with number of stem per hectare for each dbh value given as input
 #'
 #' @examples
-#' weibull.params = weibull.params.pct(age = 23, 
-#' iqs = 11.04, 
-#' stem.ha = 1200, 
-#' h = 8.29, 
-#' mdbh = 12, 
-#' id = "ID")
+#' weibull.params = weibull.params.pct(id = "ID", 
+#'                    age = 23, 
+#'                    iqs = 11.04, 
+#'                    stem.ha = 1200, 
+#'                    h = 8.29, 
+#'                    mdbh = 12)
 #' dhp.dist(dbh = 10:20, weibull.params = weibull.params)
 #' 
 #' @export
@@ -103,19 +103,26 @@ dhp.dist = function(dbh, weibull.params)
 
 #' Estimating tree height 
 #' 
-#' This function predicts the height of trees in unthinned white spruce plantations based on Auger 2016
-#'  (Une nouvelle relation hauteur-diamètre tenant compte de l’influence de la station et du climat pour 27 essences commerciales du Québec) 
-#'  https://mffp.gouv.qc.ca/publications/forets/connaissances/recherche/Auger-Isabelle/Note146.pdf
+#' This function predicts the height of trees in unthinned white spruce plantations based on Auger (2016).
+#'Values for parameters SDOM and VPOT must be extracted from https://mffp.gouv.qc.ca/publications/forets/connaissances/recherche/Auger-Isabelle/Note146.pdf
 #' 
 #' @param dbh numeric. diameter at breast height (cm)
 #' @param mdbh numeric. mean dbh at breast height of the plantation (cm)
-#' @param MAT numeric. Mean annual temperature
-#' @param SDOM numeric. Coefficient associated with bioclimatic subdomain. See https://mffp.gouv.qc.ca/publications/forets/connaissances/recherche/Auger-Isabelle/Note146.pdf
-#' @param VPOT numeric. Coefficient associated with potential vegetation. See https://mffp.gouv.qc.ca/publications/forets/connaissances/recherche/Auger-Isabelle/Note146.pdf
-#' @param BA numeric. Merchantable basal area (m2/ha)
+#' @param MAT numeric. mean annual temperature
+#' @param SDOM numeric. coefficient associated with bioclimatic subdomain
+#' @param VPOT numeric. coefficient associated with potential vegetation
+#' @param BA numeric. merchantable basal area (m2/ha)
 #'
 #' @return a dataframe containing the height of each given dbh value
 #'
+#' @examples
+#' height.epb(dbh = 10:20, 
+#'            mdbh = 12, 
+#'            MAT = 2.5, 
+#'            SDOM = -0.2749, 
+#'            VPOT = -0.1112, 
+#'            BA = seq(20, 40, by = 2))
+#'   
 #' @export 
 height.epb = function(dbh, mdbh, MAT, SDOM, VPOT, BA)  {
   stopifnot(is.numeric(MAT))
@@ -150,15 +157,18 @@ height.epb = function(dbh, mdbh, MAT, SDOM, VPOT, BA)  {
 #' @return a dataframe with number and volume in pmp of lumber products for a diameter frequency distribution
 #' 
 #' The function uses the following six product categories
-#' 1x3x08 <- c("1x3x06", "1x3x07", "1x3x08", "1x3x10", "1x3x12", "1x3x14")
-#' 1x4x08 <- c("1x4x06", "1x4x07", "1x4x08", "1x4x10", "1x4x14", "1x4x16", "1x6x08")
-#' 2x3x08 <- c("2x3x05", "2x3x06", "2x3x07", "2x3x08")
-#' 2x4x08 <- c("2x4x05", "2x4x06", "2x4x07", "2x4x08")
-#' 2x4x16 <- c("2x4x10", "2x4x12", "2x4x14", "2x4x16")
-#' 2x6x10 <- c("2x6x07", "2x6x08", "2x6x10", "2x6x12", "2x6x14", "2x6x16")
+#' 1. 1x3x08 including 1x3x06, 1x3x07, 1x3x08, 1x3x10, 1x3x12, 1x3x14
+#' 2. 1x4x08 including 1x4x06, 1x4x07, 1x4x08, 1x4x10, 1x4x14, 1x4x16, 1x6x08
+#' 3. 2x3x08 including 2x3x05, 2x3x06, 2x3x07, 2x3x08
+#' 4. 2x4x08 including 2x4x05, 2x4x06, 2x4x07, 2x4x08
+#' 5. 2x4x16 including 2x4x10, 2x4x12, 2x4x14, 2x4x16
+#' 6. 2x6x10 including 2x6x07, 2x6x08, 2x6x10, 2x6x12, 2x6x14, 2x6x16
 #'
 #' @examples
-#' statSAW.plantation(dbh = 10:20, stem.ha = seq(10,100, by = 10), h = seq(10,15, by = 0.5), return.volume = FALSE)
+#' statSAW.plantation(dbh = 10:20, 
+#'                    stem.ha = seq(10,100, by = 10), 
+#'                    h = seq(10,15, by = 0.5),
+#'                    return.volume = FALSE)
 #'
 #' @export
 statSAW.plantation = function(dbh, vol.dm3, stem.ha, h, return.volume = FALSE)
@@ -246,9 +256,10 @@ statSAW.plantation = function(dbh, vol.dm3, stem.ha, h, return.volume = FALSE)
 #' Estimating the monetary value of lumber product assortments
 #' 
 #' This function estimate the monetary value of with lumber product assortments
-#' @param lumber lumber product assortment. output of function statSAWplantation().  
+#' @param lumber lumber product assortment. output of function statSAW.plantation().  
 #' @param value dataframe comprising two columns; 1. category of lumber product (as in lumber) and 2. associated value
 #' @param id (optional) Unique id for each plantation, must be the same length as lumber. If missing, a single moneraty value will be calculated for the whole lumber product assortment
+#' 
 #' @export
 statSAW.value = function(lumber, value, id = NULL) {
   

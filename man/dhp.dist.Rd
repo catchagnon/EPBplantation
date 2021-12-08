@@ -19,12 +19,12 @@ This function estimates the diameter frequency distribution in unthinned white s
 the weibull function parameters 'location', 'scale' and 'shape'.
 }
 \examples{
-weibull.params = weibull.params.pct(age = 23, 
-iqs = 11.04, 
-stem.ha = 1200, 
-h = 8.29, 
-mdbh = 12, 
-id = "ID")
+weibull.params = weibull.params.pct(id = "ID", 
+                   age = 23, 
+                   iqs = 11.04, 
+                   stem.ha = 1200, 
+                   h = 8.29, 
+                   mdbh = 12)
 dhp.dist(dbh = 10:20, weibull.params = weibull.params)
 
 }

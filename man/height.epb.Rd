@@ -11,19 +11,27 @@ height.epb(dbh, mdbh, MAT, SDOM, VPOT, BA)
 
 \item{mdbh}{numeric. mean dbh at breast height of the plantation (cm)}
 
-\item{MAT}{numeric. Mean annual temperature}
+\item{MAT}{numeric. mean annual temperature}
 
-\item{SDOM}{numeric. Coefficient associated with bioclimatic subdomain. See https://mffp.gouv.qc.ca/publications/forets/connaissances/recherche/Auger-Isabelle/Note146.pdf}
+\item{SDOM}{numeric. coefficient associated with bioclimatic subdomain}
 
-\item{VPOT}{numeric. Coefficient associated with potential vegetation. See https://mffp.gouv.qc.ca/publications/forets/connaissances/recherche/Auger-Isabelle/Note146.pdf}
+\item{VPOT}{numeric. coefficient associated with potential vegetation}
 
-\item{BA}{numeric. Merchantable basal area (m2/ha)}
+\item{BA}{numeric. merchantable basal area (m2/ha)}
 }
 \value{
 a dataframe containing the height of each given dbh value
 }
 \description{
-This function predicts the height of trees in unthinned white spruce plantations based on Auger 2016
-(Une nouvelle relation hauteur-diamètre tenant compte de l’influence de la station et du climat pour 27 essences commerciales du Québec)
-https://mffp.gouv.qc.ca/publications/forets/connaissances/recherche/Auger-Isabelle/Note146.pdf
+This function predicts the height of trees in unthinned white spruce plantations based on Auger (2016).
+Values for parameters SDOM and VPOT must be extracted from https://mffp.gouv.qc.ca/publications/forets/connaissances/recherche/Auger-Isabelle/Note146.pdf
+}
+\examples{
+height.epb(dbh = 10:20, 
+           mdbh = 12, 
+           MAT = 2.5, 
+           SDOM = -0.2749, 
+           VPOT = -0.1112, 
+           BA = seq(20, 40, by = 2))
+  
 }
