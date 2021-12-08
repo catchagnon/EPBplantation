@@ -1,4 +1,5 @@
-#' Estimate Weibull parameters to predict the diameter frequency distribution
+#'
+#'Estimate Weibull parameters to predict the diameter frequency distribution
 #' 
 #' This function predicts the parameters of the Weibull distribution used to predict the diameter frequency distribution in unthinned white spruce plantations located in Quebec, Canada
 #' based on the percentile-based parameter recovery approach (PCT) as described in Liu et al. 2009
@@ -214,7 +215,7 @@ statSAW.value = function(lumber, value, id = NULL) {
   stopifnot(length(id) == length(lumber[,1]))
   names(value) <- c("product", "price")
   
-  if (id = NULL) {
+  if (is.null(id)) {
     lumber = lumber %>% 
       summarise(pmp_1x3x8 = sum(pmp_oneby3_08),
                 pmp_1x4x8 = sum(pmp_oneby4_08),
@@ -291,5 +292,7 @@ height.epb = function(dbh, mdbh, MAT, SDOM, VPOT, BA)  {
 
 
 
-
+library(roxygen2)
+devtools::document()
+#roxygen2::roxygenize()
 
