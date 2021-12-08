@@ -7,9 +7,9 @@
 height.epb(dbh, mdbh, MAT, SDOM, VPOT, BA)
 }
 \arguments{
-\item{dbh}{numeric.}
+\item{dbh}{numeric. diameter at breast height (cm)}
 
-\item{mdbh}{numeric.}
+\item{mdbh}{numeric. mean dbh at breast height of the plantation (cm)}
 
 \item{MAT}{numeric. Mean annual temperature}
 

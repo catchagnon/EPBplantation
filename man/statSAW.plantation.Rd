@@ -4,16 +4,18 @@
 \alias{statSAW.plantation}
 \title{StatSAW : Modelling lumber product assortment}
 \usage{
-statSAW.plantation(dbh, vol_dm3, stem_ha, h, return.volume = FALSE)
+statSAW.plantation(dbh, vol.dm3, stem.ha, h, return.volume = FALSE)
 }
 \arguments{
-\item{dbh}{numeric. diameters at breast height (dbh)}
+\item{dbh}{numeric. diameters at breast height (cm)}
 
-\item{stem_ha}{numeric. Number of stem per hectare}
+\item{vol.dm3}{numeric. (optional) merchantable volume (dm3) for each given dbh value}
 
-\item{h}{numeric. (optional) Height(m) of trees of each dbh value}
+\item{stem.ha}{numeric. number of stem per hectare}
 
-\item{vol_m}{numeric. (optional) merchantable volume (dm3) for each given dbh value}
+\item{h}{numeric. (optional) height(m) of trees of each dbh value}
+
+\item{return.volume}{logical. should the function output include the calculated merchantable volume (dm3)}
 }
 \value{
 a dataframe with number and volume in pmp of lumber products for a diameter frequency distribution
@@ -31,13 +33,12 @@ Implement StatSAW model as described in Auty et al. 2014 (StatSAW: modelling lum
 dx.doi.org/10.1139/cjfr-2013-0500), which was refitted for white and black spruce plantation in 2021.
 }
 \details{
-This function predicts the number and volume of lumber products that can be obtained in unthinned white spruce plantation given its dbh (diameter at breast height)
+This function predicts the number and volume of lumber products that can be obtained in unthinned white spruce plantation given its dbh (diameter at breast height, cm)
 frequency distribution. If merchantable volume  (dm3) for each dbh valueis not given, it is calculated using the height and dbh or the trees using the method described in
 "Équation provenant du mémoire de recherche no 160 (2010): Tarif de cubage, tables de rendement et modèles de croissance pour les plantations d'épinette blanche au Québec
 https://mffp.gouv.qc.ca/publications/forets/connaissances/recherche/Pregent-Guy/Memoire160.pdf" which is fitted for plantations located in Quebec, Canada.
 }
 \examples{
-param = param_weibull_pct(age = 23, iqs = 11.04, tige_ha = 1200, h = 8.29)
-stem_per_ha = dhp_dist(1:60, param)
+statSAW.plantation(dbh = 10:20, stem.ha = seq(10,100, by = 10), h = seq(10,15, by = 0.5), return.volume = FALSE)
 
 }

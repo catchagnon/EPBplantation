@@ -4,12 +4,12 @@
 \alias{dhp.dist}
 \title{Estimate diameter frequency distribution}
 \usage{
-dhp.dist(dbh, weibull_params)
+dhp.dist(dbh, weibull.params)
 }
 \arguments{
 \item{dbh}{numeric. vector of diameters at breast height (dbh) to run the simulation}
 
-\item{weibull_param}{dataframe. output of function param_weibull_pct}
+\item{weibull.params}{dataframe. output of function weibull.params.pct()}
 }
 \value{
 a dataframe with number of stem per hectare for each dbh value given as input
@@ -17,4 +17,14 @@ a dataframe with number of stem per hectare for each dbh value given as input
 \description{
 This function estimates the diameter frequency distribution in unthinned white spruce plantations using
 the weibull function parameters 'location', 'scale' and 'shape'.
+}
+\examples{
+weibull.params = weibull.params.pct(age = 23, 
+iqs = 11.04, 
+stem.ha = 1200, 
+h = 8.29, 
+mdbh = 12, 
+id = "ID")
+dhp.dist(dbh = 10:20, weibull.params = weibull.params)
+
 }
