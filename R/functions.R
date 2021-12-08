@@ -286,11 +286,3 @@ height.epb = function(dbh, mdbh, MAT, SDOM, VPOT, BA)  {
   
   return(height)
 }
-
-
-
-library(roxygen2)
-library(devtools)
-install_github("catchagnon/EPBplantation")
-
-
