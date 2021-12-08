@@ -51,7 +51,7 @@ weibull.params.pct <- function(id, age, iqs, stem.ha, h, mdbh)
   # Calcul et ajout du parametre "scale" de la fonction de Weibull
   scale <- - (location*gamma(1+1/shape))/gamma(1+2/shape) + sqrt((location/gamma(1+2/shape))^2 * ((gamma(1+1/shape))^2 - gamma(1+2/shape)) + (mdbh^2/gamma(1+2/shape)))
   # Creation d'un dataframe pour accueillir les resultats
-  weibull.params <- data.frame("id" = id, "location" = location, "shape" = shape, "scale" = scale, "stem.ha" = stem.ha)
+  weibull.params <- data.frame("id" = unique(id), "location" = location, "shape" = shape, "scale" = scale, "stem.ha" = stem.ha)
   
   return(weibull.params)
 }
