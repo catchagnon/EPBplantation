@@ -1,5 +1,4 @@
-#'
-#'Estimate Weibull parameters to predict the diameter frequency distribution
+#' Estimate Weibull parameters to predict the diameter frequency distribution
 #' 
 #' This function predicts the parameters of the Weibull distribution used to predict the diameter frequency distribution in unthinned white spruce plantations located in Quebec, Canada
 #' based on the percentile-based parameter recovery approach (PCT) as described in Liu et al. 2009
@@ -258,7 +257,6 @@ statSAW.value = function(lumber, value, id = NULL) {
 }         
 
 
-
 #' Estimating tree height 
 #' 
 #' This function predicts the height of trees in unthinned white spruce plantations based on Auger 2016
@@ -274,8 +272,7 @@ statSAW.value = function(lumber, value, id = NULL) {
 #'
 #' @return a dataframe containing the height of each given dbh value
 #'
-#' @export %>% %>% 
-#' 
+#' @export 
 height.epb = function(dbh, mdbh, MAT, SDOM, VPOT, BA)  {
   stopifnot(is.numeric(MAT))
   stopifnot(is.numeric(dbh))
@@ -293,6 +290,7 @@ height.epb = function(dbh, mdbh, MAT, SDOM, VPOT, BA)  {
 
 
 library(roxygen2)
-devtools::document()
-#roxygen2::roxygenize()
+library(devtools)
+install_github("catchagnon/EPBplantation")
+
 
