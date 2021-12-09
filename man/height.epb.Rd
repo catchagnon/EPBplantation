@@ -4,9 +4,11 @@
 \alias{height.epb}
 \title{Estimating tree height}
 \usage{
-height.epb(dbh, mdbh, MAT, SDOM, VPOT, BA)
+height.epb(id, dbh, mdbh, MAT, SDOM, VPOT, BA)
 }
 \arguments{
+\item{id}{character. unique id for each plantation}
+
 \item{dbh}{numeric. diameter at breast height (cm)}
 
 \item{mdbh}{numeric. mean dbh at breast height of the plantation (cm)}
@@ -20,14 +22,15 @@ height.epb(dbh, mdbh, MAT, SDOM, VPOT, BA)
 \item{BA}{numeric. merchantable basal area (m2/ha)}
 }
 \value{
-a dataframe containing the height of each given dbh value
+a dataframe containing the plantation ID, the dbh distribution and the estimated tree heights
 }
 \description{
 This function predicts the height of trees in unthinned white spruce plantations based on Auger (2016).
 Values for parameters SDOM and VPOT must be extracted from https://mffp.gouv.qc.ca/publications/forets/connaissances/recherche/Auger-Isabelle/Note146.pdf
 }
 \examples{
-height.epb(dbh = 10:20, 
+height.epb(id = as.character(rep(10:20, each = 10)),
+           dbh = 10:20, 
            mdbh = 12, 
            MAT = 2.5, 
            SDOM = -0.2749, 

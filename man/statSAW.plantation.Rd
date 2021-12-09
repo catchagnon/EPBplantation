@@ -4,9 +4,11 @@
 \alias{statSAW.plantation}
 \title{StatSAW : Modelling lumber product assortment}
 \usage{
-statSAW.plantation(dbh, vol.dm3, stem.ha, h, return.volume = FALSE)
+statSAW.plantation(id, dbh, vol.dm3, stem.ha, h, return.volume = FALSE)
 }
 \arguments{
+\item{id}{character. unique id for each plantation}
+
 \item{dbh}{numeric. diameters at breast height (cm)}
 
 \item{vol.dm3}{numeric. (optional) merchantable volume (dm3) for each given dbh value}
@@ -41,7 +43,8 @@ frequency distribution. If merchantable volume  (dm3) for each dbh valueis not g
 https://mffp.gouv.qc.ca/publications/forets/connaissances/recherche/Pregent-Guy/Memoire160.pdf" which is fitted for plantations located in Quebec, Canada.
 }
 \examples{
-statSAW.plantation(dbh = 10:20, 
+statSAW.plantation(id = as.character(rep(10:20, each = 10)),
+                   dbh = 10:20, 
                    stem.ha = seq(10,100, by = 10), 
                    h = seq(10,15, by = 0.5),
                    return.volume = FALSE)

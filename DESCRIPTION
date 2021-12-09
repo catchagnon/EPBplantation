@@ -10,7 +10,7 @@ Authors@R:
 Description: This package may be used to create a diameter frequency distribution based on  plantation attributes, model tree height and volume, and model the lumber product assortment that can be derived of the plantation.
 License: use_mit_license()
 Encoding: UTF-8
-Imports: dplyr, stats
+Imports: dplyr, stats, reshape2
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2

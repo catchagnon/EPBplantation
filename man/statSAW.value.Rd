@@ -4,14 +4,12 @@
 \alias{statSAW.value}
 \title{Estimating the monetary value of lumber product assortments}
 \usage{
-statSAW.value(lumber, value, id = NULL)
+statSAW.value(lumber, value)
 }
 \arguments{
 \item{lumber}{lumber product assortment. output of function statSAW.plantation().}
 
 \item{value}{dataframe comprising two columns; 1. category of lumber product (as in lumber) and 2. associated value}
-
-\item{id}{(optional) Unique id for each plantation, must be the same length as lumber. If missing, a single moneraty value will be calculated for the whole lumber product assortment}
 }
 \description{
 This function estimate the monetary value of with lumber product assortments

@@ -104,8 +104,9 @@ dhp.dist = function(dbh, weibull.params)
 #' Estimating tree height 
 #' 
 #' This function predicts the height of trees in unthinned white spruce plantations based on Auger (2016).
-#'Values for parameters SDOM and VPOT must be extracted from https://mffp.gouv.qc.ca/publications/forets/connaissances/recherche/Auger-Isabelle/Note146.pdf
+#' Values for parameters SDOM and VPOT must be extracted from https://mffp.gouv.qc.ca/publications/forets/connaissances/recherche/Auger-Isabelle/Note146.pdf
 #' 
+#' @param id character. unique id for each plantation
 #' @param dbh numeric. diameter at breast height (cm)
 #' @param mdbh numeric. mean dbh at breast height of the plantation (cm)
 #' @param MAT numeric. mean annual temperature
@@ -113,10 +114,11 @@ dhp.dist = function(dbh, weibull.params)
 #' @param VPOT numeric. coefficient associated with potential vegetation
 #' @param BA numeric. merchantable basal area (m2/ha)
 #'
-#' @return a dataframe containing the height of each given dbh value
+#' @return a dataframe containing the plantation ID, the dbh distribution and the estimated tree heights
 #'
 #' @examples
-#' height.epb(dbh = 10:20, 
+#' height.epb(id = as.character(rep(10:20, each = 10)),
+#'            dbh = 10:20, 
 #'            mdbh = 12, 
 #'            MAT = 2.5, 
 #'            SDOM = -0.2749, 
@@ -124,7 +126,8 @@ dhp.dist = function(dbh, weibull.params)
 #'            BA = seq(20, 40, by = 2))
 #'   
 #' @export 
-height.epb = function(dbh, mdbh, MAT, SDOM, VPOT, BA)  {
+height.epb = function(id, dbh, mdbh, MAT, SDOM, VPOT, BA)  {
+  
   stopifnot(is.numeric(MAT))
   stopifnot(is.numeric(dbh))
   stopifnot(is.numeric(mdbh))
@@ -135,7 +138,10 @@ height.epb = function(dbh, mdbh, MAT, SDOM, VPOT, BA)  {
                            0.0789 * MAT + SDOM  + VPOT) * log(dbh + 1) + 
                     (2.2411) * (log(dbh + 1))^2),2)
   
-  return(height)
+  height_df <- as.data.frame(cbind(id = id,
+                     dbh = dbh,
+                     height = height))
+  return(height_df)
 }
 
 #' StatSAW : Modelling lumber product assortment 
@@ -148,6 +154,7 @@ height.epb = function(dbh, mdbh, MAT, SDOM, VPOT, BA)  {
 #' "Équation provenant du mémoire de recherche no 160 (2010): Tarif de cubage, tables de rendement et modèles de croissance pour les plantations d'épinette blanche au Québec
 #' https://mffp.gouv.qc.ca/publications/forets/connaissances/recherche/Pregent-Guy/Memoire160.pdf" which is fitted for plantations located in Quebec, Canada.
 #'
+#' @param id character. unique id for each plantation
 #' @param dbh numeric. diameters at breast height (cm) 
 #' @param vol.dm3 numeric. (optional) merchantable volume (dm3) for each given dbh value
 #' @param stem.ha numeric. number of stem per hectare
@@ -165,14 +172,16 @@ height.epb = function(dbh, mdbh, MAT, SDOM, VPOT, BA)  {
 #' 6. 2x6x10 including 2x6x07, 2x6x08, 2x6x10, 2x6x12, 2x6x14, 2x6x16
 #'
 #' @examples
-#' statSAW.plantation(dbh = 10:20, 
+#' statSAW.plantation(id = as.character(rep(10:20, each = 10)),
+#'                    dbh = 10:20, 
 #'                    stem.ha = seq(10,100, by = 10), 
 #'                    h = seq(10,15, by = 0.5),
 #'                    return.volume = FALSE)
 #'
 #' @export
-statSAW.plantation = function(dbh, vol.dm3, stem.ha, h, return.volume = FALSE)
+statSAW.plantation = function(id, dbh, vol.dm3, stem.ha, h, return.volume = FALSE)
 {
+  
   stopifnot(is.numeric(dbh), all(dbh > 0))
   stopifnot(is.numeric(stem.ha), all(stem.ha > 0))
   
@@ -233,7 +242,8 @@ statSAW.plantation = function(dbh, vol.dm3, stem.ha, h, return.volume = FALSE)
   n_twoby6_10 <- (1 - zero_twoby6_10)*count_twoby6_10
   pmp_twoby6_10 <- n_twoby6_10 * 10.5
   
-  lumber <- data.frame(dbh = dbh,
+  lumber <- data.frame(id = id, 
+                       dbh = dbh,
                        n_oneby3_08 = n_oneby3_08*stem.ha, pmp_oneby3_08 = pmp_oneby3_08*stem.ha,
                        n_oneby4_08 = n_oneby4_08*stem.ha, pmp_oneby4_08 = pmp_oneby4_08*stem.ha,
                        n_twoby3_08 = n_twoby3_08*stem.ha, pmp_twoby3_08 = pmp_twoby3_08*stem.ha,
@@ -258,10 +268,9 @@ statSAW.plantation = function(dbh, vol.dm3, stem.ha, h, return.volume = FALSE)
 #' This function estimate the monetary value of with lumber product assortments
 #' @param lumber lumber product assortment. output of function statSAW.plantation().  
 #' @param value dataframe comprising two columns; 1. category of lumber product (as in lumber) and 2. associated value
-#' @param id (optional) Unique id for each plantation, must be the same length as lumber. If missing, a single moneraty value will be calculated for the whole lumber product assortment
 #' 
 #' @export
-statSAW.value = function(lumber, value, id = NULL) {
+statSAW.value = function(lumber, value) {
   
   pmp_oneby3_08 = NULL
   pmp_oneby4_08 = NULL
@@ -269,31 +278,13 @@ statSAW.value = function(lumber, value, id = NULL) {
   pmp_twoby4_08 = NULL
   pmp_twoby4_16 = NULL
   pmp_twoby6_10 = NULL
+  id = NULL
+  value_tot = NULL
   
-  stopifnot(length(id) == length(lumber[,1]))
   names(value) <- c("product", "price")
   
-  if (is.null(id)) {
-    lumber = lumber %>% 
-      dplyr::summarise(pmp_1x3x8 = sum(pmp_oneby3_08),
-                pmp_1x4x8 = sum(pmp_oneby4_08),
-                pmp_2x3x8 = sum(pmp_twoby3_08),
-                pmp_2x4x8 = sum(pmp_twoby4_08),
-                pmp_2x4x16 = sum(pmp_twoby4_16),
-                pmp_2x6x10 = sum(pmp_twoby6_10))
-    
-    lumber <- data.frame(vol_pmp = t(lumber),
-                         product = substr(colnames(lumber),5,10))
-    
-    stopifnot(all(unique(lumber$product) %in% value$product))
-    
-    lumber <- merge(lumber, value)
-    return(sum(lumber$vol_pmp /1000 * lumber$price))
-  }
-  
-  else {
-    lumber <- cbind(id, lumber)
-    lumber = lumber %>% 
+
+  lumber = lumber %>% 
       dplyr::group_by(id) %>% 
       dplyr::summarise(id = unique(id),
                 pmp_1x3x8 = sum(pmp_oneby3_08),
@@ -303,15 +294,20 @@ statSAW.value = function(lumber, value, id = NULL) {
                 pmp_2x4x16 = sum(pmp_twoby4_16),
                 pmp_2x6x10 = sum(pmp_twoby6_10))
     
-    lumber <- data.frame(vol_pmp = t(lumber),
-                         product = substr(colnames(lumber),5,10))
+    
+    lumber <- reshape2::melt(lumber, id = "id")
+    names(lumber) <- c("id", "product", "vol_pmp")
+    lumber$product <- substr(lumber$product,5,10)
+    
     lumber <- merge(lumber, value)
-    lumber <- lumber %>% 
+    lumber$value_tot <- lumber$vol_pmp /1000 * lumber$price
+    
+   
+    lumber <- as.data.frame(lumber %>% 
       dplyr::group_by(id) %>% 
-      dplyr::summarise(value = sum(lumber$vol_pmp /1000 * lumber$price))
+      dplyr::summarise(value = sum(value_tot)))
     
     return(lumber)
-  }
   
 }         
 
