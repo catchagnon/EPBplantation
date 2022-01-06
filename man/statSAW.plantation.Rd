@@ -20,7 +20,7 @@ statSAW.plantation(id, dbh, vol.dm3, stem.ha, h, return.volume = FALSE)
 \item{return.volume}{logical. should the function output include the calculated merchantable volume (dm3)}
 }
 \value{
-a dataframe with number and volume in pmp of lumber products for a diameter frequency distribution
+a dataframe with number and volume in pmp of lumber products for a single tree of given dbh
 
 The function uses the following six product categories
 \enumerate{
