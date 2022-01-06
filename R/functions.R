@@ -161,7 +161,7 @@ height.epb = function(id, dbh, mdbh, MAT, SDOM, VPOT, BA)  {
 #' @param h numeric. (optional) height(m) of trees of each dbh value
 #' @param return.volume logical. should the function output include the calculated merchantable volume (dm3)
 #'
-#' @return a dataframe with number and volume in pmp of lumber products for a diameter frequency distribution
+#' @return a dataframe with number and volume in pmp of lumber products for a single tree of given dbh
 #' 
 #' The function uses the following six product categories
 #' 1. 1x3x08 including 1x3x06, 1x3x07, 1x3x08, 1x3x10, 1x3x12, 1x3x14
@@ -244,12 +244,12 @@ statSAW.plantation = function(id, dbh, vol.dm3, stem.ha, h, return.volume = FALS
   
   lumber <- data.frame(id = id, 
                        dbh = dbh,
-                       n_oneby3_08 = n_oneby3_08*stem.ha, pmp_oneby3_08 = pmp_oneby3_08*stem.ha,
-                       n_oneby4_08 = n_oneby4_08*stem.ha, pmp_oneby4_08 = pmp_oneby4_08*stem.ha,
-                       n_twoby3_08 = n_twoby3_08*stem.ha, pmp_twoby3_08 = pmp_twoby3_08*stem.ha,
-                       n_twoby4_08 = n_twoby4_08*stem.ha, pmp_twoby4_08 = pmp_twoby4_08*stem.ha,
-                       n_twoby4_16 = n_twoby4_16*stem.ha, pmp_twoby4_16 = pmp_twoby4_16*stem.ha,
-                       n_twoby6_10 = n_twoby6_10*stem.ha, pmp_twoby6_10 = pmp_twoby6_10*stem.ha)
+                       n_oneby3_08 = n_oneby3_08, pmp_oneby3_08 = pmp_oneby3_08,
+                       n_oneby4_08 = n_oneby4_08, pmp_oneby4_08 = pmp_oneby4_08,
+                       n_twoby3_08 = n_twoby3_08, pmp_twoby3_08 = pmp_twoby3_08,
+                       n_twoby4_08 = n_twoby4_08, pmp_twoby4_08 = pmp_twoby4_08,
+                       n_twoby4_16 = n_twoby4_16, pmp_twoby4_16 = pmp_twoby4_16,
+                       n_twoby6_10 = n_twoby6_10, pmp_twoby6_10 = pmp_twoby6_10)
   
   if (return.volume == TRUE) {
     lumber <- cbind(vol.dm3, lumber)
